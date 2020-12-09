@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DualSenseDotNet", "DualSenseDotNet\DualSenseDotNet.csproj", "{EF6FACF3-E2FF-4464-9A5D-A40BF8B23521}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{171FEA31-B98D-4C12-9832-EBFD45B4F242}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF6FACF3-E2FF-4464-9A5D-A40BF8B23521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6FACF3-E2FF-4464-9A5D-A40BF8B23521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6FACF3-E2FF-4464-9A5D-A40BF8B23521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6FACF3-E2FF-4464-9A5D-A40BF8B23521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171FEA31-B98D-4C12-9832-EBFD45B4F242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171FEA31-B98D-4C12-9832-EBFD45B4F242}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171FEA31-B98D-4C12-9832-EBFD45B4F242}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171FEA31-B98D-4C12-9832-EBFD45B4F242}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF8728C8-ECCC-4A55-B171-E8A8AE61C140}
+	EndGlobalSection
+EndGlobal
