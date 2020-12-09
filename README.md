@@ -1,9 +1,12 @@
 # DualSense DotNet
 A home brew .net standard library for receiving input from and controlling haptics on Sony's Playstation 5 controller.
+
 Written from the perspective of a game developer. Designed to be used as a standalone input library, or used in addition to other input libraries to add controller haptic capabilities.
+
 ---
+
 ## Features Available On Latest Release Branch 
-(The goal is to support all of these eventually)
+**(The goal is to support all of these eventually)**
 | Feature | Windows | Mac | Linux |
 | :------ | :-----: | :-: | :---: |
 | basic input from controller (things supported by any generic gamepad library) | ❌ | ❌ | ❌ |
@@ -25,12 +28,15 @@ Written from the perspective of a game developer. Designed to be used as a stand
 | ✔️ | confirmed working |
     
 ---
+
 ## Usage Guide
 
 ---
+
 ## Documentation
 
 ---
+
 ## Special Thanks To
 [Ryochan7](https://github.com/Ryochan7)
 
