@@ -1,5 +1,5 @@
 # DualSense DotNet
-A home brew .net standard library for receiving input from and controlling haptics on Sony's Playstation 5 controller.
+A home brew .net standard library for receiving input from, and controlling haptics on, Sony's Playstation 5 controller.
 
 Written from the perspective of a game developer. Designed to be used as a standalone input library, or used in addition to other input libraries to add controller haptic capabilities.
 
@@ -9,23 +9,26 @@ Written from the perspective of a game developer. Designed to be used as a stand
 **(The goal is to support all of these eventually)**
 | Feature | Windows | Mac | Linux |
 | :------ | :-----: | :-: | :---: |
+| support for wired connections                                                 | ❌ | ❌ | ❌ |
+| support for bluetooth connections                                             | ❌ | ❌ | ❌ |
 | basic input from controller (things supported by any generic gamepad library) | ❌ | ❌ | ❌ |
-| receive input through polling | ❌ | ❌ | ❌ |
-| receive input through events | ❌ | ❌ | ❌ |
-| receive touchpad input | ❌ | ❌ | ❌ |
-| control touchbar side lights (player indicators) | ❌ | ❌ | ❌ |
-| control touchbar bottom light strip | ❌ | ❌ | ❌ |
-| control rumble motors | ❌ | ❌ | ❌ |
-| control trigger haptics | ❌ | ❌ | ❌ |
-| play audio through controller speakers | ❌ | ❌ | ❌ |
-| play audio through controller audio jack | ❌ | ❌ | ❌ |
+| receive input through polling                                                 | ❌ | ❌ | ❌ |
+| receive input through events                                                  | ❌ | ❌ | ❌ |
+| receive touchpad input                                                        | ❌ | ❌ | ❌ |
+| control touchpad side lights (player indicators)                              | ❌ | ❌ | ❌ |
+| control touchpad bottom light strip                                           | ❌ | ❌ | ❌ |
+| control rumble motors                                                         | ❌ | ❌ | ❌ |
+| control trigger haptics                                                       | ❌ | ❌ | ❌ |
+| play audio through controller speakers                                        | ❌ | ❌ | ❌ |
+| play audio through controller audio jack                                      | ❌ | ❌ | ❌ |
+| receive audio from controller microphone                                      | ❌ | ❌ | ❌ |
 
 ### Legend
 | Symbol | Note |
 | :----: | :--- |
-| ❌ | not implemented |
-| ❓ | implemented but untested |
-| ✔️ | confirmed working |
+| ❌ | not implemented          |
+| 🟠 | implemented but untested |
+| ✔️ | confirmed working        |
     
 ---
 
