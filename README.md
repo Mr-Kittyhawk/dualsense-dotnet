@@ -9,26 +9,29 @@ Written from the perspective of a game developer. Designed to be used as a stand
 **(The goal is to support all of these eventually)**
 | Feature | Windows | Mac | Linux |
 | :------ | :-----: | :-: | :---: |
-| support for wired connections                                                 | ❌ | ❌ | ❌ |
-| support for bluetooth connections                                             | ❌ | ❌ | ❌ |
-| basic input from controller (things supported by any generic gamepad library) | ❌ | ❌ | ❌ |
-| receive input through polling                                                 | ❌ | ❌ | ❌ |
-| receive input through events                                                  | ❌ | ❌ | ❌ |
-| receive touchpad input                                                        | ❌ | ❌ | ❌ |
-| control touchpad side lights (player indicators)                              | ❌ | ❌ | ❌ |
-| control touchpad bottom light strip                                           | ❌ | ❌ | ❌ |
-| control rumble motors                                                         | ❌ | ❌ | ❌ |
-| control trigger haptics                                                       | ❌ | ❌ | ❌ |
-| play audio through controller speakers                                        | ❌ | ❌ | ❌ |
-| play audio through controller audio jack                                      | ❌ | ❌ | ❌ |
-| receive audio from controller microphone                                      | ❌ | ❌ | ❌ |
+| Connection - Wired                                                            | ❌ | ❌ | ❌ |
+| Connection - Bluetooth                                                        | ❌ | ❌ | ❌ |
+| Input - Generic (features supported by any generic gamepad)                   | ❌ | ❌ | ❌ |
+| Input - Touchpad                                                              | ❌ | ❌ | ❌ |
+| Input - Accelerometer                                                         | ❌ | ❌ | ❌ |
+| Input - Gyroscope                                                             | ❌ | ❌ | ❌ |
+| Input Handling - Polling                                                      | ❌ | ❌ | ❌ |
+| Input Handling - Events                                                       | ❌ | ❌ | ❌ |
+| Lighting - Touchpad side (player indicators)                                  | ❌ | ❌ | ❌ |
+| Lighting - Touchpad bottom                                                    | ❌ | ❌ | ❌ |
+| Feedback - Rumble motors                                                      | ❌ | ❌ | ❌ |
+| Feedback - Trigger haptics                                                    | ❌ | ❌ | ❌ |
+| Audio Playback - Speaker                                                      | ❌ | ❌ | ❌ |
+| Audio Playback - Headphone jack                                               | ❌ | ❌ | ❌ |
+| Audio Input - Microphone                                                      | ❌ | ❌ | ❌ |
+| Audio Input - Headphone jack                                                  | ❌ | ❌ | ❌ |
 
 ### Legend
 | Symbol | Note |
 | :----: | :--- |
-| ❌ | not implemented          |
-| 🟠 | implemented but untested |
-| ✔️ | confirmed working        |
+| ❌ | Not implemented          |
+| 🟠 | Implemented but untested |
+| ✔️ | Confirmed working        |
     
 ---
 
