@@ -6,13 +6,15 @@ using DualSenseDotNet.PrimitiveTypes;
 
 namespace DualSenseDotNet {
 
-    /// <summary> Represents an individual Sony Dualsense gamepad. </summary>
-    public class Controller {
+    public class DualSenseController {
         public int SerialNumber;
         public string SystemPath;
 
         public ConnectionType Connection { get => controllerLink.ConnectionType; }
         private ControllerConnection controllerLink;
+
+        public ControllerDebug Debug;
+
 
         public Button LeftArrow;
         public Button RightArrow;
@@ -38,9 +40,14 @@ namespace DualSenseDotNet {
         public Button PlaystationButton;
         public Button MicrophoneButton;
 
-        #region Construction
-        internal Controller(HidStream connectionStream) {
+#region Construction
+        internal DualSenseController(HidStream connectionStream) {
             controllerLink = new ControllerConnection(connectionStream);
+            Debug = new ControllerDebug(controllerLink);
+
+            //SerialNumber = int.Parse(controllerLink.GetSerialNumber());
+            SystemPath = controllerLink.GetSystemPath();
+
             controllerLink.InputReportReceived += () => PollState();
 
             Cross = new Button();
@@ -48,9 +55,9 @@ namespace DualSenseDotNet {
             Triangle = new Button();
             Circle = new Button();
         }
-        #endregion Construction
+#endregion Construction
 
-        /// <summary> Updates the state of the <see cref="Controller"/> class instance with the newest data from the physical device. </summary>
+        /// <summary> Updates the state of the <see cref="DualSenseController"/> class instance with the newest data from the physical device. </summary>
         public void PollState() {
             var inputReport = controllerLink.Read();
 

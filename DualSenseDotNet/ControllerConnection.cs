@@ -5,15 +5,15 @@ using DualSenseDotNet.IO;
 using DualSenseDotNet.PrimitiveTypes;
 
 namespace DualSenseDotNet {
-    /// <summary> The data stream over which our <see cref="Controller"/> and the physical Dualsense controller communicate with eachother. </summary>
+    /// <summary> The data stream over which our <see cref="DualSenseController"/> and the physical Dualsense controller communicate with eachother. </summary>
     internal class ControllerConnection {
         private HidStream connection;
         public ConnectionType ConnectionType { get; private set; }
 
         /// <summary> for receiving data from the controller. </summary>
-        private byte[] inputBuffer;
+        internal byte[] inputBuffer;
         /// <summary> for sending data to the controller. </summary>
-        private byte[] outputBuffer;
+        internal byte[] outputBuffer;
 
         private HidDeviceInputReceiver inputNotifier;
 
@@ -37,7 +37,7 @@ namespace DualSenseDotNet {
             MaxOutputReportLength = device.GetMaxOutputReportLength();
             Console.WriteLine(MaxOutputReportLength);
             if (MaxInputReportLength is 78) {
-                // enables bluetooth connection
+                // enable bluetooth connection
                 connection.GetFeature(new BluetoothEnableRequest().Serialize(ref outputBuffer, ConnectionType.Bluetooth));
                 ConnectionType = ConnectionType.Bluetooth;
             }
@@ -81,6 +81,8 @@ namespace DualSenseDotNet {
             //Clear(inputBuffer);
             return report;
         }
+
+        internal string GetSystemPath() => connection.Device.GetFileSystemName();
 
         /// <summary> Erases an array of bytes. </summary>
         private void Clear(byte[] buffer) {

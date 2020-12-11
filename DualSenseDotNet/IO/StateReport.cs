@@ -34,7 +34,7 @@ namespace DualSenseDotNet.IO {
             SquarePressed = Convert.ToBoolean(rawMessage[9]);
             TrianglePressed = Convert.ToBoolean(rawMessage[10]);
             CirclePressed = Convert.ToBoolean(rawMessage[11]);
-            PrintRawState(rawMessage);
+            //PrintRawState(rawMessage);
             return this;
             /*
             // Convert trigger to unsigned range
