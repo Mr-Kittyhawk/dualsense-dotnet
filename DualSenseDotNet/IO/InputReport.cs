@@ -3,7 +3,8 @@ using System;
 using DualSenseDotNet.PrimitiveTypes;
 
 namespace DualSenseDotNet.IO {
-    internal class StateReport : HIDReport<StateReport> {
+    /// <summary> HID Input Report</summary>
+    internal class InputReport : HIDReport<InputReport> {
         internal override byte ID => 1;
 
         internal Vector2 LeftStickPosition;
@@ -20,7 +21,7 @@ namespace DualSenseDotNet.IO {
             throw new System.NotImplementedException();
         }
 
-        internal override HIDReport<StateReport> Deserialize(byte[] rawMessage, ConnectionType connectionType) {
+        internal override HIDReport<InputReport> Deserialize(byte[] rawMessage, ConnectionType connectionType) {
             // Convert sticks to signed range
             LeftStickPosition.X = rawMessage[2] - 128;
             LeftStickPosition.Y = (rawMessage[3] - 127) * -1f;

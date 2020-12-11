@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Numerics;
 using HidSharp;
 using DualSenseDotNet.PrimitiveTypes;
 
 namespace DualSenseDotNet {
 
     public class DualSenseController {
-        public int SerialNumber;
+
+        private ControllerConnection controllerLink;
+        public ControllerDebug Debug;
+
+        // public int SerialNumber;
         public string SystemPath;
 
         public ConnectionType Connection { get => controllerLink.ConnectionType; }
-        private ControllerConnection controllerLink;
 
-        public ControllerDebug Debug;
-
-
-        public Button LeftArrow;
-        public Button RightArrow;
-        public Button UpArrow;
-        public Button DownArrow;
+        public DirectionalPad DPad;
 
         public Button Cross;
         public Button Square;
@@ -37,57 +33,88 @@ namespace DualSenseDotNet {
 
         public Button MenuButton;
         public Button ShareButton;
-        public Button PlaystationButton;
+        public Button PlayStationButton;
         public Button MicrophoneButton;
 
-#region Construction
+        #region Construction
         internal DualSenseController(HidStream connectionStream) {
-            controllerLink = new ControllerConnection(connectionStream);
-            Debug = new ControllerDebug(controllerLink);
 
-            //SerialNumber = int.Parse(controllerLink.GetSerialNumber());
-            SystemPath = controllerLink.GetSystemPath();
-
-            controllerLink.InputReportReceived += () => PollState();
-
+            DPad = new DirectionalPad();
             Cross = new Button();
             Square = new Button();
             Triangle = new Button();
             Circle = new Button();
-        }
-#endregion Construction
 
-        /// <summary> Updates the state of the <see cref="DualSenseController"/> class instance with the newest data from the physical device. </summary>
-        public void PollState() {
-            var inputReport = controllerLink.Read();
+            LeftShoulder = new Button();
+            RightShoulder = new Button();
 
-            Cross.IsDown = inputReport.CrossPressed;
-            Square.IsDown = inputReport.SquarePressed;
-            Triangle.IsDown = inputReport.TrianglePressed;
-            Circle.IsDown = inputReport.CirclePressed;
-            //PrintButtonStates();
-           // return controllerLink.inputBuffer;
-        }
+            LeftTrigger = new Trigger();
+            RightTrigger = new Trigger();
 
-        public void PrintJoystickInfo() {
-            // Console.WriteLine($"Left Joystick ({report.LeftStickPosition.X}, {report.LeftStickPosition.Y})");
-            // Console.WriteLine($"Right Joystick ({report.RightStickPosition.X}, {report.RightStickPosition.Y})");
+            LeftStick = new Joystick();
+            RightStick = new Joystick();
 
-            //Console.WriteLine($"Left Trigger : {report.LeftTriggerPosition}");
-            //Console.WriteLine($"Right Trigger: {report.RightTriggerPosition}");
-        }
+            MenuButton = new Button();
+            ShareButton = new Button();
+            PlayStationButton = new Button();
+            MicrophoneButton = new Button();
 
-        public void PrintButtonStates() {
-            Console.WriteLine($"Square: {(Square.IsDown ? '1' : '0')} Trianle: {(Triangle.IsDown ? '1' : '0')} Circle: {(Circle.IsDown ? '1' : '0')} Cross: {(Cross.IsDown ? '1' : '0')}");
+            controllerLink = new ControllerConnection(connectionStream);
+            Debug = new ControllerDebug(controllerLink);
+
+            // SerialNumber = int.Parse(controllerLink.GetSerialNumber());
+            SystemPath = controllerLink.GetSystemPath();
+
+            controllerLink.InputReportReceived += ConsumeInputReport;
         }
 
-        public void PrintState() {
-            controllerLink.PrintStreamContents();
+        ~DualSenseController() {
+            controllerLink.InputReportReceived -= ConsumeInputReport;
         }
-        public void PrintRGB() {
-            controllerLink.PrintRGB();
+        #endregion Construction
+
+        /// <summary> Updates the state of this class with the newest data from the physical device. </summary>
+        public void PollState() => ConsumeInputReport(controllerLink.inputBuffer);
+
+        /// <summary> Updates the state of this class from an input report. </summary>
+        public void ConsumeInputReport(byte[] inputReport) {
+            switch (inputReport[0]) {
+                case 0:
+                case 1:
+                    ConsumeWiredInputReport(inputReport);
+                    return;
+                case 49:
+                    ConsumeBluetoothInputReport(inputReport);
+                    return;
+                default:
+                    throw new ArgumentException($"{nameof(DualSenseController)} doesn't know how to process HID input reports of ID: {inputReport[0]}");
+            }
         }
-        public void PrintReportTypes() => controllerLink.PrintReportTypes();
+
+        private void ConsumeWiredInputReport(byte[] inputReport) {
+            float x = (inputReport[2] - 128) / 255f;
+            float y = ((inputReport[3] - 127) * -1f) / 255f;
+
+            LeftStick.Position = new Vector2(x, y);
+
+            x = (inputReport[4] - 128) / 255f;
+            y = ((inputReport[5] - 127) * -1f) / 255f;
+
+            RightStick.Position = new Vector2(x, y);
+
+            LeftTrigger.Position = inputReport[6] / 255f;
+            RightTrigger.Position = inputReport[7] / 255f;
+
+            Cross.IsDown = Convert.ToBoolean(inputReport[8]);
+            Square.IsDown = Convert.ToBoolean(inputReport[9]);
+            Triangle.IsDown = Convert.ToBoolean(inputReport[10]);
+            Circle.IsDown = Convert.ToBoolean(inputReport[11]);
+        }
+
+        private void ConsumeBluetoothInputReport(byte[] inputReport) {
+
+        }
+
         public void SetRGB(float red, float green, float blue) => controllerLink.SetRGB(red, green, blue);
 
     }

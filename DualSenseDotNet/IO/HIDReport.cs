@@ -7,7 +7,7 @@ namespace DualSenseDotNet.IO {
         abstract internal byte ID { get; }
 
 
-        /// <summary> Converts this <see cref="HIDReport{T}"/> to a raw message that can be sent over the network to a <see cref="DualSenseController"/>. </summary>
+        /// <summary> Converts this object to a raw message that can be sent over the network to a <see cref="DualSenseController"/>. </summary>
         /// <remarks> Different connection types require different data layouts inside the buffer. </remarks>
         internal abstract byte[] Serialize(ref byte[] outputBuffer, ConnectionType connectionType);
 

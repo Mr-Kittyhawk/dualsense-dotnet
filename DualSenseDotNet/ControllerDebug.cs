@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DualSenseDotNet {
     public class ControllerDebug {
@@ -8,7 +6,7 @@ namespace DualSenseDotNet {
         public event Action<byte[]> RawInputReportReceived;
 
         internal ControllerDebug(ControllerConnection connection) {
-            connection.InputReportReceived += () => RawInputReportReceived?.Invoke(connection.inputBuffer);
+            connection.InputReportReceived += inputBuffer => RawInputReportReceived?.Invoke(inputBuffer);
         }
     }
 }

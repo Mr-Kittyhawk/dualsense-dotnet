@@ -15,9 +15,11 @@ namespace InputReportMonitor {
                 return;
             }
 
+            Console.WriteLine($"Found {connectedControllers.Count()} controller{(connectedControllers.Count() > 1 ? "s" : "")}!");
+
             var controller = connectedControllers.First();
-            Console.WriteLine($"Controller {controller.SystemPath} connected!");
-            controller.Debug.RawInputReportReceived += rawBuffer => PrintRawHIDReport(rawBuffer, 4);
+            Console.WriteLine($"Controller {controller.SystemPath} connected");
+            controller.Debug.RawInputReportReceived += rawBuffer => PrintRawHIDReport(rawBuffer, 5);
 
             char lastKey = 'c';
             while (lastKey != ' ') {
@@ -34,23 +36,10 @@ namespace InputReportMonitor {
             Console.CursorVisible = false;
             Console.SetCursorPosition(0, (int)startingRow);
 
-
             Console.WriteLine("-------------------------------------------------------------------");
-            Console.WriteLine("|                          Input Report                           |");
+            Console.WriteLine($"|                        Input Report {rawBuffer[0].ToString().PadLeft(3, '0')}                         |");
             Console.WriteLine("-------------------------------------------------------------------");
-            Console.Write("| ");
-            for (int i = 0; i < Math.Min(rawBuffer.Length, 8); i++) {
-                Console.Write($"{i.ToString().PadLeft(3, '0')}:{rawBuffer[i].ToString().PadLeft(3, '0')}");
-
-                if (i == 7 || i == rawBuffer.Length - 1)
-                    Console.Write(" |\n");
-                else
-                    Console.Write(' ');
-            }
-
-            Console.Write($"{8.ToString().PadLeft(3, '0')}:{rawBuffer[8].ToString().PadLeft(3, '0')}");
-
-            for (int i = 9; i < rawBuffer.Length; i++) {
+            for (int i = 1; i < rawBuffer.Length; i++) {
                 if (i % 8 == 1)
                     Console.Write("| ");
 
