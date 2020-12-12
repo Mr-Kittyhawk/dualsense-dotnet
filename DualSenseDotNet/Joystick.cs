@@ -29,7 +29,7 @@ namespace DualSenseDotNet {
         /// <summary> The button that activates when you "click" the <see cref="Joystick"/> in. </summary>
         public Button Button = new Button();
 
-        public Joystick(float deadZone = 0.05f) {
+        public Joystick(float deadZone = 0.1f) {
             DeadZone = deadZone;
         }
     }

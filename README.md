@@ -11,7 +11,7 @@ Written from the perspective of a game developer. Designed to be used as a stand
 | :------ | :-----: | :-: | :---: |
 | Connection - Wired                                                            | ✔️ | 🟠 | 🟠 |
 | Connection - Bluetooth                                                        | ✔️ | 🟠 | 🟠 |
-| Input - Generic (features supported by any generic gamepad)                   | ❌ | ❌ | ❌ |
+| Input - Generic (features supported by any gamepad)                           | ✔️ | 🟠 | 🟠 |
 | Input - Touchpad                                                              | ❌ | ❌ | ❌ |
 | Input - Accelerometer                                                         | ❌ | ❌ | ❌ |
 | Input - Gyroscope                                                             | ❌ | ❌ | ❌ |

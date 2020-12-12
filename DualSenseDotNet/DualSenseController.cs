@@ -94,13 +94,13 @@ namespace DualSenseDotNet {
         }
 
         private void ConsumeWiredInputReport(byte[] inputReport) {
-            float x = (inputReport[1] - 128) / 255f;
-            float y = ((inputReport[2] - 127) * -1f) / 255f;
+            float x = (inputReport[1] - 128) / 127f;
+            float y = ((inputReport[2] - 127) * -1f) / 127f;
 
             LeftStick.Position = new Vector2(x, y);
 
-            x = (inputReport[3] - 128) / 255f;
-            y = ((inputReport[4] - 127) * -1f) / 255f;
+            x = (inputReport[3] - 128) / 127f;
+            y = ((inputReport[4] - 127) * -1f) / 127f;
 
             RightStick.Position = new Vector2(x, y);
 
@@ -147,7 +147,56 @@ namespace DualSenseDotNet {
         }
 
         private void ConsumeBluetoothInputReport(byte[] inputReport) {
+            float x = (inputReport[2] - 128) / 127f;
+            float y = ((inputReport[3] - 127) * -1f) / 127f;
 
+            LeftStick.Position = new Vector2(x, y);
+
+            x = (inputReport[4] - 128) / 127f;
+            y = ((inputReport[5] - 127) * -1f) / 127f;
+
+            RightStick.Position = new Vector2(x, y);
+
+            LeftTrigger.Position = inputReport[6] / 255f;
+            RightTrigger.Position = inputReport[7] / 255f;
+
+            var faceButtonState = new BitArray(new byte[] { inputReport[9] });
+            if (faceButtonState[3])
+                DPad.Direction = DirectionalPad.DirectionEnum.None;
+            else {
+                if (faceButtonState[0] && faceButtonState[1] && faceButtonState[2])
+                    DPad.Direction = DirectionalPad.DirectionEnum.UpLeft;
+                else if (faceButtonState[1] && faceButtonState[2])
+                    DPad.Direction = DirectionalPad.DirectionEnum.Left;
+                else if (faceButtonState[0] && faceButtonState[2])
+                    DPad.Direction = DirectionalPad.DirectionEnum.DownLeft;
+                else if (faceButtonState[2])
+                    DPad.Direction = DirectionalPad.DirectionEnum.Down;
+                else if (faceButtonState[0] && faceButtonState[1])
+                    DPad.Direction = DirectionalPad.DirectionEnum.DownRight;
+                else if (faceButtonState[1])
+                    DPad.Direction = DirectionalPad.DirectionEnum.Right;
+                else if (faceButtonState[0])
+                    DPad.Direction = DirectionalPad.DirectionEnum.UpRight;
+                else
+                    DPad.Direction = DirectionalPad.DirectionEnum.Up;
+            }
+            Square.IsDown = faceButtonState[4];
+            Cross.IsDown = faceButtonState[5];
+            Circle.IsDown = faceButtonState[6];
+            Triangle.IsDown = faceButtonState[7];
+
+            var additionalButtonGroup = new BitArray(new byte[] { inputReport[10] });
+            LeftShoulder.IsDown = additionalButtonGroup[0];
+            RightShoulder.IsDown = additionalButtonGroup[1];
+            ShareButton.IsDown = additionalButtonGroup[4];
+            MenuButton.IsDown = additionalButtonGroup[5];
+            LeftStick.Button.IsDown = additionalButtonGroup[6];
+            RightStick.Button.IsDown = additionalButtonGroup[7];
+
+            var centerButtonGroup = new BitArray(new byte[] { inputReport[11] });
+            PlayStationButton.IsDown = centerButtonGroup[0];
+            MicrophoneButton.IsDown = centerButtonGroup[2];
         }
 
         public void SetRGB(float red, float green, float blue) => controllerLink.SetRGB(red, green, blue);
