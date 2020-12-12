@@ -9,27 +9,8 @@ Written from the perspective of a game developer. Designed to be used as a stand
 **(The goal is to support all of these eventually)**
 | Feature | Windows | Mac | Linux |
 | :------ | :-----: | :-: | :---: |
-| Connection - Wired                                                            | ❌ | ❌ | ❌ |
-| Connection - Bluetooth                                                        | ❌ | ❌ | ❌ |
-| Input - Generic (features supported by any generic gamepad)                   | ❌ | ❌ | ❌ |
-| Input - Touchpad                                                              | ❌ | ❌ | ❌ |
-| Input - Accelerometer                                                         | ❌ | ❌ | ❌ |
-| Input - Gyroscope                                                             | ❌ | ❌ | ❌ |
-| Input Handling - Polling                                                      | ❌ | ❌ | ❌ |
-| Input Handling - Events                                                       | ❌ | ❌ | ❌ |
-| Lighting - Touchpad side (player indicators)                                  | ❌ | ❌ | ❌ |
-| Lighting - Touchpad bottom                                                    | ❌ | ❌ | ❌ |
-| Feedback - Rumble motors                                                      | ❌ | ❌ | ❌ |
-| Feedback - Trigger haptics                                                    | ❌ | ❌ | ❌ |
-| Audio Playback - Speaker                                                      | ❌ | ❌ | ❌ |
-| Audio Playback - Headphone jack                                               | ❌ | ❌ | ❌ |
-| Audio Input - Microphone                                                      | ❌ | ❌ | ❌ |
-| Audio Input - Headphone jack                                                  | ❌ | ❌ | ❌ |
-
-### Legend
-| Symbol | Note |
-| :----: | :--- |
-| ❌ | Not implemented          |
+ 	| Connection - Wired                                                            | ✔️ | 🟠 | 🟠 |
+	| Lighting - Touchpad side (player indicators)                                  | ❌ | ❌ | ❌ |
 | 🟠 | Implemented but untested |
 | ✔️ | Confirmed working        |
     
