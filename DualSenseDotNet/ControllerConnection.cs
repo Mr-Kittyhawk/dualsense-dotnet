@@ -3,6 +3,7 @@ using HidSharp.Reports.Input;
 using System;
 using DualSenseDotNet.IO;
 using DualSenseDotNet.PrimitiveTypes;
+using System.Linq;
 
 namespace DualSenseDotNet {
     /// <summary> The data stream over which our <see cref="DualSenseController"/> and the physical Dualsense controller communicate with eachother. </summary>
@@ -11,11 +12,13 @@ namespace DualSenseDotNet {
         public ConnectionType ConnectionType { get; private set; }
 
         /// <summary> for receiving data from the controller. </summary>
-        internal byte[] inputBuffer;
+        //internal byte[] inputBuffer;
         /// <summary> for sending data to the controller. </summary>
         internal byte[] outputBuffer;
 
-        private HidDeviceInputReceiver inputNotifier;
+        DeviceItemInputParser parser;
+
+        private HidDeviceInputReceiver inputReceiver;
 
         /// <remarks> 78 bytes on a Sony PS5 controller using bluetooth, 64 if connected by wire. </remarks>
         public readonly int MaxInputReportLength;
@@ -28,19 +31,30 @@ namespace DualSenseDotNet {
         #region Contruction & Destruction
         internal ControllerConnection(HidStream connection) {
             this.connection = connection;
-            if (connection.CanRead is false)
-                throw new System.Exception();
+            // if (connection.CanRead is false)
+            //    throw new System.Exception();
 
             HidDevice device = connection.Device;
-            inputNotifier = new HidDeviceInputReceiver(device.GetReportDescriptor());
+            var reportDescriptor = device.GetReportDescriptor();
+            //Console.WriteLine($"report types for controller: {}");
+            inputReceiver = new HidDeviceInputReceiver(reportDescriptor);
 
             MaxInputReportLength = device.GetMaxInputReportLength();
             MaxOutputReportLength = device.GetMaxOutputReportLength();
 
             if (MaxInputReportLength is 78) {
-                // enable bluetooth connection
-                connection.GetFeature(new BluetoothEnableRequest().Serialize(ref outputBuffer, ConnectionType.Bluetooth));
-                ConnectionType = ConnectionType.Bluetooth;
+                // attempt bluetooth connection
+                try {
+                    connection.GetFeature(new BluetoothEnableRequest().Serialize(ref outputBuffer, ConnectionType.Bluetooth));
+                    ConnectionType = ConnectionType.Bluetooth;
+                }
+                catch { // if the controller is connected over bluetooth, but also plugged in the controller will refuse the get feature request
+                    // TODO: Nate - ControllerConnection: test wired connection fallback for refused bluetooth connections
+                    ConnectionType = ConnectionType.Wired;
+                }
+                
+                //parser = reportDescriptor.InputReports.ToArray()[1].DeviceItem.CreateDeviceItemInputParser();
+                
             }
             else if (MaxInputReportLength is 64)
                 ConnectionType = ConnectionType.Wired;
@@ -49,19 +63,23 @@ namespace DualSenseDotNet {
 
             //connection.Device.GetReportDescriptor().GetReport(ReportType.Input, 49).
 
-            inputBuffer = new byte[MaxInputReportLength];
+            //inputBuffer = new byte[MaxInputReportLength];
             outputBuffer = new byte[MaxOutputReportLength];
 
-            inputNotifier.Received += RaiseInputReceivedEvent;
-            inputNotifier.Start(connection);
+            inputReceiver.Received += RaiseInputReceivedEvent;
+            inputReceiver.Start(connection);
         }
 
         ~ControllerConnection() {
-            inputNotifier.Received -= RaiseInputReceivedEvent;
+            inputReceiver.Received -= RaiseInputReceivedEvent;
             connection.Dispose();
         }
         #endregion Contruction & Destruction
-        private void RaiseInputReceivedEvent(object @object, EventArgs arguments) => InputReportReceived?.Invoke(inputBuffer);
+        private void RaiseInputReceivedEvent(object @object, EventArgs arguments) {
+            //inputReceiver.TryRead()
+            
+            InputReportReceived?.Invoke(connection.Read());
+        }
 
         /// <summary> Sends a properly formatted set of instructions out to the controller. </summary>
         internal void Write<T>(HIDReport<T> outputReport) {
@@ -72,14 +90,14 @@ namespace DualSenseDotNet {
 
         /// <summary> Reads the most recent message from the controller. </summary>
         internal InputReport Read() {
-            connection.Read(inputBuffer);
-
             var report = new InputReport();
 
-            report.Deserialize(inputBuffer, ConnectionType);
+            report.Deserialize(connection.Read(), ConnectionType);
 
             return report;
         }
+
+        internal byte[] ReadRaw() => connection.Read();
 
         internal string GetSystemPath() => connection.Device.GetFileSystemName();
 

@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace InputReportMonitor {
-    /// <summary> Displays the stream of data coming in from a connected controller. </summary>
+    /// <summary> A debug tool that displays the raw stream of data coming in from a connected controller. </summary>
     class InputReportMonitor {
         private static bool drawing;
 
@@ -48,7 +48,7 @@ namespace InputReportMonitor {
                 if (i % 8 == 0)
                     Console.Write(" |\n");
                 else if (i == rawBuffer.Length - 1) {
-                    for (int j = 0; j < 88 - Console.CursorLeft; j++)
+                    for (int j = Console.CursorLeft; j < 65; j++)
                         Console.Write(' ');
                     Console.Write(" |\n");
                 }

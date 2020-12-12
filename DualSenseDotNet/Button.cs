@@ -23,7 +23,7 @@ namespace DualSenseDotNet {
         }
 
         /// <summary> Duration this button has been held down for in seconds. </summary>
-        public float HeldFor { get => IsDown ? (Environment.TickCount - lastPressedTime) * 1000f : 0f; }
+        public float HeldFor { get => IsDown ? (Environment.TickCount - lastPressedTime) / 1000f : 0f; }
 
         private bool isDown;
         private int lastPressedTime;
