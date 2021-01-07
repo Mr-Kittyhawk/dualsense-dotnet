@@ -44,6 +44,12 @@ Written from the perspective of a game developer. Designed to be used as a stand
 
 ---
 
+## Support
+
+[Discord](https://discord.gg/m72u2KtcHm)
+
+---
+
 ## Special Thanks To
 [Ryochan7](https://github.com/Ryochan7)
 
